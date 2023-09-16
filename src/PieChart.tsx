@@ -13,54 +13,71 @@ type PieChartProps = {
   data: DataItem[];
 };
 
+// Define constants for margin and label extension
 const MARGIN_X = 150;
 const MARGIN_Y = 50;
 const LABEL_EXTENSION = 20;
 
+// Create a color scale for the pie chart using D3's color schemes
 const colorScale = d3.scaleOrdinal<string>().range(d3.schemeCategory10);
 
 export const PieChart = ({ width, height, data }: PieChartProps) => {
+  // Create refs for the SVG element and the wrapper div
   const svgRef = useRef<SVGGElement | null>(null);
   const wrapperDivRef = useRef<HTMLDivElement | null>(null);
+
+  // Use a custom hook to get dimensions of the wrapper div
   const dimensions = useDimensions(wrapperDivRef);
 
+  // Calculate chart width and height based on dimensions and provided width/height props
   const chartWidth = dimensions.width || width;
   const chartHeight = dimensions.height || height;
 
+  // Calculate the radius and inner radius of the pie chart
   const radius =
     Math.min(chartWidth - 2 * MARGIN_X, chartHeight - 2 * MARGIN_Y) / 2;
-
   const innerRadius = radius * 0.6;
 
+  // Use useMemo to generate the pie chart data based on the input data
   const pieData = useMemo(() => {
     const pieGenerator = d3.pie<DataItem>().value((d) => d.value);
-
     return pieGenerator(data);
   }, [data]);
 
+  // Create an arc generator for drawing the pie slices
   const arcGenerator = d3.arc();
 
+  // Create an array of pie slices with labels and interaction handlers
   const pieSlices = pieData.map((slice, index) => {
+    // Define the slice's inner and outer radius, start and end angles
     const sliceInfo = {
       innerRadius,
       outerRadius: radius,
       startAngle: slice.startAngle,
       endAngle: slice.endAngle,
     };
+
+    // Calculate the centroid and path for the slice
     const centroid = arcGenerator.centroid(sliceInfo);
     const slicePath = arcGenerator(sliceInfo);
 
+    // Define the inner and outer radius, start and end angles for label extension line
     const labelExtensionInfo = {
       innerRadius: radius + LABEL_EXTENSION,
       outerRadius: radius + LABEL_EXTENSION,
       startAngle: slice.startAngle,
       endAngle: slice.endAngle,
     };
+
+    // Calculate the position for the label extension point
     const labelExtensionPoint = arcGenerator.centroid(labelExtensionInfo);
 
+    // Determine label position and text anchor based on the extension point
     const isRightLabel = labelExtensionPoint[0] > 0;
     const labelPosX = labelExtensionPoint[0] + 50 * (isRightLabel ? 1 : -1);
     const textAnchor = isRightLabel ? 'start' : 'end';
+
+    // Create label text with data and value
     const labelText = slice.data.name + ' (' + slice.value + ')';
 
     return (
@@ -108,6 +125,7 @@ export const PieChart = ({ width, height, data }: PieChartProps) => {
     );
   });
 
+  // Return the pie chart within a wrapper div and an SVG element
   return (
     <div ref={wrapperDivRef} className="chart-container">
       <svg
