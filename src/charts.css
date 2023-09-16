@@ -20,3 +20,8 @@
   stroke: whitesmoke;
   fill: whitesmoke;
 }
+
+.graph {
+  fill: none;
+  stroke: salmon;
+}

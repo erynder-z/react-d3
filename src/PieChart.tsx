@@ -1,6 +1,6 @@
 import { useMemo, useRef } from 'react';
 import * as d3 from 'd3';
-import './pie-chart.css';
+import './charts.css';
 import { useDimensions } from './useDimensions';
 
 type DataItem = {
