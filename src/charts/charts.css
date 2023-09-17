@@ -51,3 +51,30 @@
   font-weight: bold;
   text-anchor: end;
 }
+
+.scatterPlot .circles {
+  opacity: 1;
+  stroke: greenyellow;
+  fill: greenyellow;
+  fill-opacity: 0.5;
+  stroke-width: 1;
+}
+
+.scatterPlot .axisLine {
+  stroke: whitesmoke;
+  stroke-width: 0.5;
+}
+
+.scatterPlot .xAxisText {
+  font-size: 10px;
+  text-anchor: middle;
+  transform: translateY(20px);
+  fill: whitesmoke;
+}
+
+.scatterPlot .yAxisText {
+  font-size: 10px;
+  text-anchor: middle;
+  transform: translateX(-20px);
+  fill: whitesmoke;
+}

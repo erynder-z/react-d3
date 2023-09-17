@@ -6,6 +6,8 @@ import { LineChart } from './charts/LineChart';
 import { lineChartData } from './data/lineChartData';
 import { Histogram } from './charts/Histogram';
 import { histogramData } from './data/histogramData';
+import { ScatterPlot } from './charts/ScatterPlot';
+import { scatterPlotData } from './data/scatterPlotData';
 
 const App = () => {
   const [activeChart, setActiveChart] = useState<JSX.Element | null>(null);
@@ -52,6 +54,19 @@ const App = () => {
           }}
         >
           Histogram
+        </button>
+        <button
+          onClick={() => {
+            setActiveChart(
+              <ScatterPlot
+                width={scatterPlotData.width}
+                height={scatterPlotData.height}
+                data={scatterPlotData.data}
+              />
+            );
+          }}
+        >
+          Scatterplot
         </button>
       </div>
       {activeChart}
