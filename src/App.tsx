@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import './App.css';
-import { PieChart } from './PieChart';
-import { pieChartData } from './data/piechartData';
-import { LineChart } from './LineChart';
-import { lineChartData } from './data/linechartData';
+import { PieChart } from './charts/PieChart';
+import { pieChartData } from './data/pieChartData';
+import { LineChart } from './charts/LineChart';
+import { lineChartData } from './data/lineChartData';
 
 const App = () => {
   const [activeChart, setActiveChart] = useState<JSX.Element | null>(null);

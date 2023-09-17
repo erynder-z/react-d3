@@ -1,7 +1,7 @@
 import { useMemo, useRef } from 'react';
 import * as d3 from 'd3';
 import './charts.css';
-import { useDimensions } from './useDimensions';
+import { useDimensions } from '../hooks/useDimensions';
 
 type DataItem = {
   name: string;
