@@ -1,5 +1,5 @@
 import * as d3 from 'd3';
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 type HistogramProps = {
   width: number;
@@ -15,6 +15,8 @@ const BUCKET_PADDING = 1;
 export const Histogram = ({ width, height, data }: HistogramProps) => {
   // Create a reference to the SVG element
   const axesRef = useRef<SVGSVGElement | null>(null);
+
+  const [hoveredBar, setHoveredBar] = useState<number | null>(null);
 
   // Calculate the bounds of the chart area
   const boundsWidth = width - MARGIN.right - MARGIN.left;
@@ -81,7 +83,7 @@ export const Histogram = ({ width, height, data }: HistogramProps) => {
     return (
       <rect
         key={i}
-        className="histogramColor"
+        className={`bar ${i === hoveredBar ? 'hasHighlight' : ''}`}
         x={xScale(bucket.x0 as number) + BUCKET_PADDING / 2} // Calculate x position
         width={
           xScale(bucket.x1 as number) -
@@ -90,6 +92,8 @@ export const Histogram = ({ width, height, data }: HistogramProps) => {
         } // Calculate width of the bar
         y={yScale(bucketLength)} // Calculate y position
         height={boundsHeight - yScale(bucketLength)} // Calculate height of the bar
+        onMouseEnter={() => setHoveredBar(i)}
+        onMouseLeave={() => setHoveredBar(null)}
       />
     );
   });
@@ -100,6 +104,7 @@ export const Histogram = ({ width, height, data }: HistogramProps) => {
       <g
         width={boundsWidth}
         height={boundsHeight}
+        className="histogram"
         transform={`translate(${[MARGIN.left, MARGIN.top].join(',')})`} // Translate the chart area
       >
         {allRects}
@@ -110,6 +115,12 @@ export const Histogram = ({ width, height, data }: HistogramProps) => {
         ref={axesRef}
         transform={`translate(${[MARGIN.left, MARGIN.top].join(',')})`} // Translate the axes area
       />
+      {/* Display the value of the hovered bar */}
+      {hoveredBar !== null && (
+        <text x={width - 10} y={20} className="histogramHighlightText">
+          {buckets[hoveredBar].length}
+        </text>
+      )}
     </svg>
   );
 };

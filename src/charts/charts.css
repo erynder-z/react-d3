@@ -26,6 +26,28 @@
   stroke: salmon;
 }
 
-.histogramColor {
+.histogram .bar {
   fill: violet;
+  transition-duration: 0.3s;
+  transition-property: filter, opacity;
+  filter: saturate(100%);
+  opacity: 1;
+  cursor: pointer;
+}
+
+.histogram:hover .bar:not(.hasHighlight) {
+  filter: saturate(50%);
+  opacity: 0.2;
+}
+
+.bar.hasHighlight:hover {
+  filter: saturate(100%);
+  opacity: 1;
+}
+
+.histogramHighlightText {
+  fill: whitesmoke;
+  font-size: 14;
+  font-weight: bold;
+  text-anchor: end;
 }
