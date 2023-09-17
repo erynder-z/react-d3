@@ -25,3 +25,7 @@
   fill: none;
   stroke: salmon;
 }
+
+.histogramColor {
+  fill: violet;
+}

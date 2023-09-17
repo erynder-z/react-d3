@@ -4,6 +4,8 @@ import { PieChart } from './charts/PieChart';
 import { pieChartData } from './data/pieChartData';
 import { LineChart } from './charts/LineChart';
 import { lineChartData } from './data/lineChartData';
+import { Histogram } from './charts/Histogram';
+import { histogramData } from './data/histogramData';
 
 const App = () => {
   const [activeChart, setActiveChart] = useState<JSX.Element | null>(null);
@@ -37,6 +39,19 @@ const App = () => {
           }}
         >
           Line Chart
+        </button>
+        <button
+          onClick={() => {
+            setActiveChart(
+              <Histogram
+                width={lineChartData.width}
+                height={lineChartData.height}
+                data={histogramData.data}
+              />
+            );
+          }}
+        >
+          Histogram
         </button>
       </div>
       {activeChart}
